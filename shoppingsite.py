@@ -53,7 +53,6 @@ def show_melon(melon_id):
     melon = melons.get_by_id(melon_id)
     print melon
 
-    # session['last_melon_viewed'] = melon_id
 
     return render_template("melon_details.html",
                            display_melon=melon)
@@ -97,15 +96,15 @@ def add_to_cart(id):
     # TODO: Finish shopping cart functionality
 
     # The logic here should be something like:
-    #
-    # - add the id of the melon they bought to the cart in the session
 
-    
+    # add the id of the melon they bought to the cart in the session
+    value = session.get('cart', [])
+    value.append(id)
+    # return is for checking the session
+    return "ok I put that in the session" + str(value)
 
-    return redirect('/cart')
-
-    # return "last melon: " + str(session['last_melon_viewed'])
-
+    #below is where we want to go in the end
+    #return redirect('/cart')
 
 @app.route("/login", methods=["GET"])
 def show_login():
