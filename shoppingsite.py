@@ -63,27 +63,25 @@ def shopping_cart():
     """Display content of shopping cart."""
 
     # TODO: Display the contents of the shopping cart.
-
     # The logic here will be something like:
-    # 
-    # - get the list-of-ids-of-melons from the session cart
-      # for melon in melon_list
-      #   if add to cart melon chosen
-      #       return:
-      #           Melon Name
-      #           Quantity
-      #           Price "price" melon.price_str()
-      #           Total 
-      #           display this in the cart...
-       
+    # session['cart'] = value #is this being brought in via the redirrect from add to cart?
+    
+    cart = session.values()
+    
+    for item in cart:
+        if item == id:
+            print id
+
+
     #   - loop over this list:
-    #   - keep track of information about melon types in the cart ASK session to remember
+    #   - keep track of information about melon types in the cart 
     #   - keep track of the total amt ordered for a melon-type 
     #   - keep track of the total amt of the entire order
     # - hand to the template the total order cost and the list of melon types
       # display_melon.common_name
-    return render_template("cart.html")
 
+    #return render_template("cart.html")
+    # melon_types = read_melon_types_from_file("melons.txt")
 
 @app.route("/add_to_cart/<int:id>")
 def add_to_cart(id):
@@ -92,19 +90,16 @@ def add_to_cart(id):
     When a melon is added to the cart, redirect browser to the shopping cart
     page and display a confirmation message: 'Successfully added to cart'.
     """
-    #Currently goes no where
-    # TODO: Finish shopping cart functionality
 
-    # The logic here should be something like:
-
-    # add the id of the melon they bought to the cart in the session
+    #if the cart is empty list, take the id and append it to the list (below)
+    #dictionary = cart is the key and list of ids is the value
     value = session.get('cart', [])
+    #append value to it or if there's something to the list, just add it to the list
     value.append(id)
-    # return is for checking the session
-    return "ok I put that in the session" + str(value)
+    #re-binding session cart to the value list
+    session['cart'] = value
 
-    #below is where we want to go in the end
-    #return redirect('/cart')
+    return redirect('/cart')
 
 @app.route("/login", methods=["GET"])
 def show_login():
